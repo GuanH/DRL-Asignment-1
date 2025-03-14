@@ -32,13 +32,13 @@ def get_action(obs):
         v = q_table[s[0], s[1], s[2], s[3], s[4], s[5], s[6], s[7], s[8]]
     # 0 down 1 up 2 right 3 left
     if obs[10]:  # north
-        v[1] = 0
+        v[1] = -10000
     if obs[11]:  # south
-        v[0] = 0
+        v[0] = -10000
     if obs[12]:  # east
-        v[2] = 0
+        v[2] = -10000
     if obs[13]:  # west
-        v[3] = 0
+        v[3] = -10000
     action = np.argmax(v)
 
     if stage == 0:

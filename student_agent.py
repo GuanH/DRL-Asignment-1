@@ -5,6 +5,9 @@ q_table = np.fromfile('q_table.npz').reshape((3, 3, 2, 2, 2, 2, 2, 2, 2, 6))
 check = 0
 stage = 0
 drop = (-1, -1)
+last_stage = -1
+last_check = -1
+last_action = -1
 
 
 def get_action_name(action):
@@ -37,19 +40,35 @@ def get_action(obs):
     #    v[5] = -10000
     # else:
     v = q_table[s[0], s[1], s[2], s[3], s[4], s[5], s[6], s[7], s[8]].copy()
+    print(v)
     # 0 down 1 up 2 right 3 left
     if obs[10]:  # north
-        v[1] = -10000
+        v[1] = -10010
     if obs[11]:  # south
-        v[0] = -10001
+        v[0] = -10011
     if obs[12]:  # east
-        v[2] = -10002
+        v[2] = -10012
     if obs[13]:  # west
-        v[3] = -10003
+        v[3] = -10013
     if stage == 1 or obs[14] != 1 or (s[0], s[1]) != (0, 0):
-        v[4] = -10004
+        v[4] = -10014
     if stage == 0 or obs[15] != 1 or (s[0], s[1]) != (0, 0):
-        v[5] = -10005
+        v[5] = -10015
+    if (last_check, last_stage) == (check, stage):
+        if last_action == 0:
+            print('A', last_action)
+            v[1] = -10006
+        elif last_action == 1:
+            print('B', last_action)
+            v[0] = -10007
+        elif last_action == 2:
+            print('C', last_action)
+            v[3] = -10008
+        elif last_action == 3:
+            print('D', last_action)
+            v[2] = -10009
+    print(f'last {get_action_name(last_action)} {last_action}')
+    print(v)
     action = np.argmax(v)
     last_check = check
     last_stage = stage

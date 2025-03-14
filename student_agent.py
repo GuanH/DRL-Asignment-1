@@ -21,9 +21,12 @@ def sign(x):
     return 1 if x > 0 else 2 if x < 0 else 0
 
 
+step = 0
+
+
 def get_action(obs):
     global check, stage, drop, last_stage, last_check, last_action
-
+    step += 1
     stations = [(obs[2+i*2], obs[2+i*2+1]) for i in range(4)]
     x, y = obs[0], obs[1]
     if drop[0] == -1:
@@ -34,12 +37,15 @@ def get_action(obs):
     s = [sign(tx-x), sign(ty-y), stage, obs[10], obs[11],
          obs[12], obs[13], obs[14], obs[15]]
 
-    # if np.random.rand() < 0.1:
-    #    v = np.random.rand(6)
-    #    v[4] = -10000
-    #    v[5] = -10000
-    # else:
-    v = q_table[s[0], s[1], s[2], s[3], s[4], s[5], s[6], s[7], s[8]].copy()
+    if step > 100:
+        v = np.random.rand(6)
+        v[4] = -10000
+        v[5] = -10000
+        if step > 110:
+            step = 0
+    else:
+        v = q_table[s[0], s[1], s[2], s[3],
+                    s[4], s[5], s[6], s[7], s[8]].copy()
     # 0 down 1 up 2 right 3 left
     if obs[10]:  # north
         v[1] = -10010

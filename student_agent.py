@@ -40,7 +40,6 @@ def get_action(obs):
     #    v[5] = -10000
     # else:
     v = q_table[s[0], s[1], s[2], s[3], s[4], s[5], s[6], s[7], s[8]].copy()
-    print(v)
     # 0 down 1 up 2 right 3 left
     if obs[10]:  # north
         v[1] = -10010
@@ -56,19 +55,13 @@ def get_action(obs):
         v[5] = -10015
     if (last_check, last_stage) == (check, stage):
         if last_action == 0:
-            print('A', last_action)
             v[1] = -10006
         elif last_action == 1:
-            print('B', last_action)
             v[0] = -10007
         elif last_action == 2:
-            print('C', last_action)
             v[3] = -10008
         elif last_action == 3:
-            print('D', last_action)
             v[2] = -10009
-    print(f'last {get_action_name(last_action)} {last_action}')
-    print(v)
     action = np.argmax(v)
     last_check = check
     last_stage = stage

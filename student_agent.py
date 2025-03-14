@@ -40,9 +40,9 @@ def get_action(obs):
     if obs[13]:  # west
         v[3] = -10000
     if obs[14] != 1:
-        v[5] = -1000
+        v[4] = -1000
     if obs[15] != 1:
-        v[6] = -1000
+        v[5] = -1000
     action = np.argmax(v)
 
     if stage == 0:

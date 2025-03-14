@@ -26,8 +26,8 @@ def get_action(obs):
 
     if np.random.rand() < 0.1:
         v = np.random.rand(6)
-        v[4] = 0
-        v[5] = 0
+        v[4] = -10000
+        v[5] = -10000
     else:
         v = q_table[s[0], s[1], s[2], s[3], s[4], s[5], s[6], s[7], s[8]]
     # 0 down 1 up 2 right 3 left
@@ -40,9 +40,9 @@ def get_action(obs):
     if obs[13]:  # west
         v[3] = -10000
     if obs[14] != 1:
-        v[4] = -1000
+        v[4] = -10000
     if obs[15] != 1:
-        v[5] = -1000
+        v[5] = -10000
     action = np.argmax(v)
 
     if stage == 0:

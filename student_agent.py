@@ -25,7 +25,7 @@ step = 0
 
 
 def get_action(obs):
-    global check, stage, drop, last_stage, last_check, last_action
+    global check, stage, drop, last_stage, last_check, last_action, step
     step += 1
     stations = [(obs[2+i*2], obs[2+i*2+1]) for i in range(4)]
     x, y = obs[0], obs[1]

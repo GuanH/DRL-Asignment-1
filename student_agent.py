@@ -42,9 +42,9 @@ def get_action(obs):
         v[2] = -10000
     if obs[13]:  # west
         v[3] = -10000
-    if stage == 1 or obs[14] != 1:
+    if stage == 1 or obs[14] != 1 or (s[0], s[1]) != (0, 0):
         v[4] = -10000
-    if stage == 0 or obs[15] != 1:
+    if stage == 0 or obs[15] != 1 or (s[0], s[1]) != (0, 0):
         v[5] = -10000
     if (last_check, last_stage) == (check, stage):
         if last_action == 0:

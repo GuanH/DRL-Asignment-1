@@ -10,6 +10,13 @@ last_check = -1
 last_action = -1
 
 
+def get_action_name(action):
+    """Returns a human-readable action name."""
+    actions = ["Move South", "Move North", "Move East",
+               "Move West", "Pick Up", "Drop Off"]
+    return actions[action] if action is not None else "None"
+
+
 def sign(x):
     return 1 if x > 0 else 2 if x < 0 else 0
 
@@ -32,29 +39,29 @@ def get_action(obs):
     #    v[4] = -10000
     #    v[5] = -10000
     # else:
-    v = q_table[s[0], s[1], s[2], s[3], s[4], s[5], s[6], s[7], s[8]]
+    v = q_table[s[0], s[1], s[2], s[3], s[4], s[5], s[6], s[7], s[8]].copy()
     # 0 down 1 up 2 right 3 left
     if obs[10]:  # north
         v[1] = -10000
     if obs[11]:  # south
-        v[0] = -10000
+        v[0] = -10001
     if obs[12]:  # east
-        v[2] = -10000
+        v[2] = -10002
     if obs[13]:  # west
-        v[3] = -10000
+        v[3] = -10003
     if stage == 1 or obs[14] != 1 or (s[0], s[1]) != (0, 0):
-        v[4] = -10000
+        v[4] = -10004
     if stage == 0 or obs[15] != 1 or (s[0], s[1]) != (0, 0):
-        v[5] = -10000
+        v[5] = -10005
     if (last_check, last_stage) == (check, stage):
         if last_action == 0:
-            v[1] = -10000
+            v[1] = -10006
         elif last_action == 1:
-            v[0] = -10000
+            v[0] = -10007
         elif last_action == 2:
-            v[3] = -10000
+            v[3] = -10008
         elif last_action == 3:
-            v[2] = -10000
+            v[2] = -10009
     action = np.argmax(v)
     last_check = check
     last_stage = stage

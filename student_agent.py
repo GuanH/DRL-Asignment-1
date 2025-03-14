@@ -5,6 +5,9 @@ q_table = np.fromfile('q_table.npz').reshape((3, 3, 2, 2, 2, 2, 2, 2, 2, 6))
 check = 0
 stage = 0
 drop = (-1, -1)
+last_stage = -1
+last_check = -1
+last_action = -1
 
 
 def sign(x):
@@ -12,7 +15,7 @@ def sign(x):
 
 
 def get_action(obs):
-    global check, stage, drop
+    global check, stage, drop, last_stage, last_check, last_action
 
     stations = [(obs[2+i*2], obs[2+i*2+1]) for i in range(4)]
     x, y = obs[0], obs[1]
@@ -39,11 +42,23 @@ def get_action(obs):
         v[2] = -10000
     if obs[13]:  # west
         v[3] = -10000
-    if obs[14] != 1:
+    if stage == 1 or obs[14] != 1:
         v[4] = -10000
-    if obs[15] != 1:
+    if stage == 0 or obs[15] != 1:
         v[5] = -10000
+    if (last_check, last_stage) == (check, stage):
+        if last_action == 0:
+            v[1] = -10000
+        elif last_action == 1:
+            v[0] = -10000
+        elif last_action == 2:
+            v[3] = -10000
+        elif last_action == 3:
+            v[2] = -10000
     action = np.argmax(v)
+    last_check = check
+    last_stage = stage
+    last_action = action
 
     if stage == 0:
         if (x, y) == (tx, ty):

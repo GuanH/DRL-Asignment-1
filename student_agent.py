@@ -37,11 +37,11 @@ def get_action(obs):
     s = [sign(tx-x), sign(ty-y), stage, obs[10], obs[11],
          obs[12], obs[13], obs[14], obs[15]]
 
-    if step > 100:
+    if step > 70:
         v = np.random.rand(6)
         v[4] = -10000
         v[5] = -10000
-        if step > 110:
+        if step > 75:
             step = 0
     else:
         v = q_table[s[0], s[1], s[2], s[3],
